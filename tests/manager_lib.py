@@ -14,7 +14,7 @@ class TestLibraryManager(unittest.TestCase):
         added_book = self.mock_library.add_book.call_args[0][0]
         self.assertEqual(added_book.title, "1984")
         self.assertEqual(added_book.author, "George Orwell")
-        self.assertEqual(int(added_book.year), 1949)
+        self.assertEqual(added_book.year, "1949")
 
     def test_add_book_invalid_year(self):
         self.manager.add_book(
