@@ -1,15 +1,8 @@
-import logging
 from abc import ABC, abstractmethod
+from logger import logger_config
 
 
-logging.INFO
-logger = logging.getLogger("library_info")
-logger.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-ch.setFormatter(formatter)
-logger.addHandler(ch)
+logger_info = logger_config("info", "library_info")
 
 
 class Book:
@@ -49,7 +42,7 @@ class Library(LibraryInterface):
 
     def show_books(self) -> None:
         for book in self.books:
-            logger.info(
+            logger_info.info(
                 f"Title: {book.title}, Author: {book.author}, Year: {book.year}"
             )
 
@@ -73,7 +66,8 @@ def main() -> None:
     manager = LibraryManager(library)
 
     while True:
-        command = input("Enter command (add, remove, show, exit): ").strip().lower()
+        command = input(
+            "Enter command (add, remove, show, exit): ").strip().lower()
 
         match command:
             case "add":
@@ -89,7 +83,7 @@ def main() -> None:
             case "exit":
                 break
             case _:
-                logger.info("Invalid command. Please try again.")
+                logger_info.info("Invalid command. Please try again.")
 
 
 if __name__ == "__main__":
