@@ -1,16 +1,9 @@
-import logging
 from abc import ABC, abstractmethod
 from typing import Protocol
+from logger import logger_config
 
 
-logging.INFO
-logger = logging.getLogger("vehicle_info")
-logger.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-ch.setFormatter(formatter)
-logger.addHandler(ch)
+logger_info = logger_config("info", "vehicles_info")
 
 
 class Vehicle(ABC):
@@ -37,13 +30,13 @@ class VehicleFactory(Protocol):
 class Car(Vehicle):
 
     def start_engine(self) -> None:
-        logger.info(f"{self.make} {self.model}: Двигун запущено")
+        logger_info.info(f"{self.make} {self.model}: Двигун запущено")
 
 
 class Motorcycle(Vehicle):
 
     def start_engine(self) -> None:
-        logger.info(f"{self.make} {self.model}: Мотор заведено")
+        logger_info.info(f"{self.make} {self.model}: Мотор заведено")
 
 
 class USVehicleFactory(VehicleFactory):
@@ -69,7 +62,8 @@ def main() -> None:
     us_car = us_factory.create_car("Ford", "Mustang")
     eu_car = eu_factory.create_car("BMW", "X5")
 
-    us_motorcycle = us_factory.create_motorcycle("Harley-Davidson", "Street 750")
+    us_motorcycle = us_factory.create_motorcycle(
+        "Harley-Davidson", "Street 750")
     eu_motorcycle = eu_factory.create_motorcycle("Ducati", "Monster 821")
 
     vehicles = [us_car, eu_car, us_motorcycle, eu_motorcycle]
